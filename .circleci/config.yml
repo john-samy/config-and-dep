@@ -24,7 +24,9 @@ jobs:
       steps:
         - checkout
         - run:
-            echo $mykey
+            echo $mykey >> key.pem
+        - run:
+            chmod 400 key.pem
         - run:
             name: install ansible
             command: |
@@ -32,7 +34,7 @@ jobs:
         - run:
             name: run playbook
             command: |
-              ansible-playbook -i inventory.yml main.yml
+              ansible-playbook -i inventory.yml main.yml --private-key key.pem
               
 # Sequential workflow
 workflows:
