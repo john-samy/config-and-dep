@@ -1,0 +1,43 @@
+version: 2.1
+# Use a package of configuration called an orb.
+orbs:
+  # Choose either one of the orbs below
+  # welcome: circleci/welcome-orb@0.4.1
+  # aws-cli: circleci/aws-cli@2.0.3
+# Define the jobs we want to run for this project
+jobs:
+#  create_infrastructure: 
+#      docker:
+#        - image: amazon/aws-cli
+#      steps:
+#        - checkout
+#        - run:
+#            name: Create Cloudformation Stack
+#            command: |
+#              aws cloudformation deploy \
+#                --template-file template.yml \
+#                --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+#               --region us-east-1
+  configure_infrastructure: 
+      docker:
+        - image: python:3.7-alpine3.11
+      steps:
+        - checkout
+        - add_ssh_keys:
+            fingerprints: ["00:9a:c7:d5:ae:64:68:50:65:a7:6d:c7:8d:7d:22:40"]
+        - run:
+            name: install ansible
+            command: |
+              apk add --update ansible
+        - run:
+            name: run playbook
+            command: |
+              ansible-playbook -i inventory.yml main.yml
+              
+# Sequential workflow
+workflows:
+  # Name the workflo
+  myWorkflow:
+    jobs:
+      #- create_infrastructure
+      - configure_infrastructure
