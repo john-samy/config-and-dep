@@ -23,8 +23,8 @@ jobs:
         - image: python:3.7-alpine3.11
       steps:
         - checkout
-        - add_ssh_keys:
-            $mykey
+        - run:
+            echo $mykey
         - run:
             name: install ansible
             command: |
