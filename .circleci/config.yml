@@ -20,16 +20,11 @@ jobs:
 #               --region us-east-1
   configure_infrastructure: 
       docker:
-        - image: amazon/aws-cli
+        - image: python:3.7-alpine3.11
       steps:
         - checkout
-        - run:
-            echo $mykey >> key.pem
-        - run:
-            chmod 400 key.pem
-        - run:
-            command: |
-              ping 3.80.182.148
+        - add_ssh_keys:
+            fingerprints: ["ed:29:5b:f7:a6:d8:f3:e6:a4:79:e3:f9:7d:1a:b0:4f"]
         - run:
             name: install ansible
             command: |
@@ -37,7 +32,7 @@ jobs:
         - run:
             name: run playbook
             command: |
-              ansible-playbook -i inventory.yml main.yml --private-key key.pem
+              ansible-playbook -i inventory.yml main.yml
               
 # Sequential workflow
 workflows:
