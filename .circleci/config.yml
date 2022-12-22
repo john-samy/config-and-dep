@@ -24,8 +24,6 @@ jobs:
       steps:
         - checkout
         - run:
-            ping 3.80.182.148
-        - run:
             echo $mykey >> key.pem
         - run:
             chmod 400 key.pem
