@@ -3,7 +3,7 @@
 - name: Remote Control Using Ansible
   hosts: all
   user: ubuntu
-  become: true
+  become: false
   become_method: sudo
   become_user: root
   roles:
