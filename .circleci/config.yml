@@ -20,7 +20,7 @@ jobs:
 #               --region us-east-1
   configure_infrastructure: 
       docker:
-        - image: python:3.7-alpine3.11
+        - image: cimg/base:stable
       steps:
         - checkout
         - add_ssh_keys:
@@ -28,7 +28,11 @@ jobs:
         - run:
             name: install ansible
             command: |
-              apk add --update ansible
+              sudo apt update
+              sudo apt intsall software-properties-common -y
+              sudo apt-add-repository --yes --update ppa:ansible/ansible
+              sudo apt install ansible
+              
         - run:
             name: run playbook
             command: |
